@@ -1,0 +1,909 @@
+<ion-menu style=" --background: #000000cc;" side="end" menuId="config" contentId="main">
+
+    <div class="menu-list">
+        <span (click)="openLinkBrowser()">Acerca de Nosotros</span>
+        <span (click)="openLinkContacto()">Soporte</span>
+
+        <!--
+            
+        <span>Configuracion</span>
+        <span (click)="openAddEpisodio()">Admin Episodios</span>
+        <span (click)="openAdminHipodromo()">Admin Hipodromos</span>
+-->
+    </div>
+
+</ion-menu>
+<ion-menu style=" --background: #000000cc;" side="end" menuId="perfil" contentId="main">
+    <div class="profile-cont" *ngIf="userAny">
+        <ion-avatar>
+            <img src="{{userAny.photoURL}} " alt="">
+        </ion-avatar>
+        <span>{{userAny.displayName}} </span>
+        <ion-button (click)="onLogOut()" class="log-out">Cerrar sesion
+            <ion-icon slot="start" name="log-out"></ion-icon>
+        </ion-button>
+    </div>
+    <div class="menu-list" *ngIf="!userAny">
+        <span (click)="openLinkBrowser()">Acerca de Nosotros</span>
+        <span (click)="openLinkContacto()">Soporte</span>
+
+    </div>
+
+
+</ion-menu>
+<div (click)="dismissSplash()" class="splas" style="background: url(../../assets/other/SPLASH2.jpg);  background-position: center;
+background-repeat: no-repeat;
+background-size: cover; {{splashScreen}} ">
+    <span>..</span>
+</div>
+<ion-router-outlet id="main">
+
+
+
+
+    <div class="contenido">
+        <ion-slides #contenido [options]="contenidos">
+            <ion-slide>
+                <div class="content">
+                    <div class="header" style="    background: #000000d6;
+                  backdrop-filter: blur(5px);    margin-top: 0;">
+                        <div class="logo-place" style="
+                      height: 100%;
+                      width: 17%;
+                      border-radius: 50%;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;">
+                            <!--     <div class="logo-dia">
+                              <span>.</span>
+                          </div>
+                        <div class="logo-dia-dos">
+                              <span>.</span>
+                          </div>  (click)="openAddEpisodio()"-->
+                            <img style="    width: 80%;
+                          margin: auto;" src="../../assets/logo/grtv.png" alt="">
+                        </div>
+                        <div class="config" (click)="openMenu()">
+                            <!--  
+                                (click)=""
+                                
+                                <div class="logo-dia">
+                              <span>.</span>
+                          </div>
+                          <div class="logo-dia-dos">
+                              <span>.</span>
+                          </div>-->
+                            <ion-icon name="settings"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="reproductor">
+                        <div class="view">
+                            <video style="height: 100%;width: 100%;" controls id="video-player" preload="metadata" playsinline class="video-js vjs-default-skin"></video>
+                        </div>
+
+                    </div>
+                    <div class="ruedita">
+                        <div class="two-span-ruedita" style="display: flex; width: 100%;">
+                            <span *ngIf="valueRuedita < -1 && howMuchBack" style="margin-left: 5%;margin-right: auto;"><ion-icon name="play-back"></ion-icon> {{howMuchBack}} </span>
+                            <span (click)="goToLive()" *ngIf="valueRuedita < -1  && howMuchBack" style="color: white;font-size: 12px;background: #9e9e9e;padding: 4px;border-radius: 10px;"> <ion-icon slot="start" name="radio"></ion-icon> En vivo</span>
+                            <span (click)="goToLive()" class="parpadea" style="color: white;font-size: 12px;background: red;padding: 4px;border-radius: 10px;" *ngIf="valueRuedita == 0 && !howMuchBack"> <ion-icon slot="start" name="radio"></ion-icon> En vivo</span>
+                        </div>
+
+                        <div class="rue">
+
+                            <ion-range mode='md' style="padding-bottom: 0;padding-top: 1%;    --bar-background-active: #cfcaca;
+                                --knob-background: black;
+                                --bar-background: #cfcaca;
+                                color: black;
+                                --pin-background: black;padding-inline: 0;--knob-size:24px;" (ionChange)="puntito($event)" min="{{min}}" max="{{max}}" step="{{step}}" value="{{valueRuedita}} " snaps>
+
+
+                                <ion-icon (click)="restTimeTrim()" slot="start" name="remove-circle"></ion-icon>
+                                <ion-icon (click)="addTimeTrim()" slot="end" name="add-circle"></ion-icon>
+                            </ion-range>
+                            <div class="horas-ruedita" style="top: 25%;max-width: 95%;width: 84%;">
+                                <span style="border-right:none; border-left: 1px solid black;">.</span>
+                                <span style="border-right:none; border-left: 1px solid black;height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="border-right:none; border-left: 1px solid black;height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="border-right:none; border-left: 1px solid black;height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="border-right:none; border-left: 1px solid black;height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="border-right:none; border-left: 1px solid black;">.</span>
+                                <span style="border-right:none; border-left: 1px solid black;height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="border-right:none; border-left: 1px solid black;height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="border-right:none; border-left: 1px solid black;height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="border-right:none; border-left: 1px solid black;height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="    height: 85%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span>.</span>
+                                <span style="height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span style="height: 50%;margin-top: auto;margin-bottom: auto;">.</span>
+                                <span>.</span>
+                            </div>
+                            <div class="horas-ruedita" style="grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+                                bottom: 55%;
+                                max-width: 94%;">
+                                <span style="    color: black;
+                                    width: 100%;
+                                    border-right: none;
+                                    margin: 0;
+                                    display: flex;
+                                    justify-content: flex-start;
+                                    " id="horasspanvar">{{lastten}} </span>
+                                <span style="    color: black;
+                                    width: 100%;
+                                    border-right: none;
+                                    margin: 0;
+                                    display: flex;justify-content: flex-start;" id="horasspanvar"> {{lastfive}} </span>
+                                <span style="    color: black;
+                                    width: 100%;
+                                    border-right: none;
+                                    margin: 0;">{{myCurrentHour}} </span>
+                                <span style="    color: black;
+                                    width: 100%;
+                                    border-right: none;
+                                    margin: 0;
+                                    
+                                    display: flex;
+                                    justify-content: flex-end;" id="horasspanvar">{{Laterfive}} </span>
+                                <span style="    color: black;
+                                    width: 100%;
+                                    border-right: none;
+                                    margin: 0;
+                                    display: flex;
+                                    justify-content: flex-end;
+                                    " id="horasspanvar">{{LaterTen}} </span>
+                            </div>
+
+                        </div>
+                        <div class="tres-span-ruedita">
+                            <span style="opacity: 0;">.</span>
+                            <span id="fecharedita" style="margin-top: 0;">{{dateRuedita}}</span>
+                            <span style="margin-top: 0;"><ion-icon name="play-back"></ion-icon>{{howManyMaxMin}} <ion-icon name="play-forward"></ion-icon></span>
+                        </div>
+
+                    </div>
+                    <div class="show-botons" style="width: 90%;
+                  margin-left: auto;
+                  border-radius: 10px;
+                  margin-right: auto;
+                  background:white;
+                  backdrop-filter: blur(5px);border:1px solid  #000000d6;">
+                        <!--     <div class="show-dia" style="transition: 1s; {{onVivoBoton}} " >
+                          <span>.</span>
+                      </div>
+                     <div class="show-dia-dos" style="transition: 1.3s; {{transpDiv}} " >
+                          <span>.</span>
+                      </div>-->
+                        <div (click)="onDestacado()" class="show-bot" style="  {{destacadoActive}} ">
+                            <span>Destacado</span>
+                        </div>
+                        <div (click)="onProgramas()" class="show-bot" style=" {{progamaActive}} ">
+                            <span>Programación</span>
+                        </div>
+                        <div (click)="onVerDespues()" class="show-bot" style=" {{despuesActive}} ">
+                            <span>Pronosticos</span>
+                        </div>
+                    </div>
+                    <div class="slider-programacion">
+                        <ion-slides #programacion [options]="sliderprog">
+                            <ion-slide>
+                                <div class="programacion-list">
+                                    <div class="programacion-item">
+                                        <h3 style="margin-top: 1%;">Hoy</h3>
+                                        <div class="episodios-item" *ngFor="let item of episodiosDestacado" style="margin-bottom:2vh;">
+                                            <div (click)="openEpisodio(item)" class="item-img">
+                                                <img style="border:2px solid black" src="{{item.cover}} " alt="">
+                                            </div>
+                                            <div style=" display: flex;
+                                          width: 70%;
+                                          height: 100%;
+                                          justify-content: space-evenly;
+                                          align-items: center;
+                                          border-bottom: 1px solid #313131 ;">
+                                                <div (click)="openEpisodio(item)" class="item-content" style="width: 80%;">
+                                                    <div class="other-info">
+                                                        <span style="margin-left: auto;">{{item.pais}} </span>
+                                                    </div>
+                                                    <div class="titulo-episodio" style="text-align: initial;">
+                                                        <span style="text-align: initial;">{{item.nombre}} </span>
+                                                    </div>
+                                                    <div class="other-info">
+                                                        <span>Episodio {{item.capitulo}} </span>
+                                                        <span>{{item.horario}} </span>
+                                                    </div>
+
+                                                </div>
+                                                <div (click)="guardarEpisodio(item)" class="play-item">
+                                                    <ion-icon name="bookmark"></ion-icon>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="programacion-item">
+                                        <h3 style="margin-top: 1%;">Dias Anteriores</h3>
+                                        <div class="episodios-item" *ngFor="let item of episodioDestacadoOtros" style="margin-bottom:2vh;">
+                                            <div (click)="openEpisodio(item)" class="item-img">
+                                                <img style="border:2px solid black" src="{{item.cover}} " alt="">
+                                            </div>
+                                            <div style=" display: flex;
+                                          width: 70%;
+                                          height: 100%;
+                                          justify-content: space-evenly;
+                                          align-items: center;
+                                          border-bottom: 1px solid #313131 ;">
+                                                <div (click)="openEpisodio(item)" class="item-content" style="width: 80%;">
+                                                    <div class="other-info">
+                                                        <span style="margin-left: auto;">{{item.pais}} </span>
+                                                    </div>
+                                                    <div class="titulo-episodio" style="text-align: initial;">
+                                                        <span style="text-align: initial;">{{item.nombre}} </span>
+                                                    </div>
+                                                    <div class="other-info">
+                                                        <span>Episodio {{item.capitulo}} </span>
+                                                        <span>{{item.horario}} </span>
+                                                    </div>
+
+                                                </div>
+                                                <div (click)="guardarEpisodio(item)" class="play-item">
+                                                    <ion-icon name="bookmark"></ion-icon>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <br>
+                                </div>
+                            </ion-slide>
+
+
+                            <ion-slide>
+                                <div class="programacion-list">
+                                    <div class="programacion-item">
+                                        <div class="agenda-item">
+                                            <span *ngIf="day == 'Lun'; else isLun" style="border-right: 2px solid #c7c7c7; background: rgb(107, 107, 107);color: white;">Lun</span>
+                                            <ng-template #isLun>
+                                                <span (click)="changeDayEpisodio('Lun')" style="border-right: 2px solid #c7c7c7;">Lun</span>
+                                            </ng-template>
+                                            <span *ngIf="day == 'Mar'; else isMar" style="border-right: 2px solid #c7c7c7;background: rgb(107, 107, 107);color: white;">Mar</span>
+                                            <ng-template #isMar>
+                                                <span (click)="changeDayEpisodio('Mar')" style="border-right: 2px solid #c7c7c7;">Mar</span>
+                                            </ng-template>
+                                            <span *ngIf="day == 'Mie'; else isMie" style="border-right: 2px solid #c7c7c7;background: rgb(107, 107, 107);color: white;  ">Mie</span>
+                                            <ng-template #isMie>
+                                                <span (click)="changeDayEpisodio('Mie')" style="border-right: 2px solid #c7c7c7;">Mie</span>
+                                            </ng-template>
+                                            <span *ngIf="day == 'Jue';else isJue" style="border-right: 2px solid #c7c7c7; background: rgb(107, 107, 107);color: white;">Jue</span>
+                                            <ng-template #isJue>
+                                                <span (click)="changeDayEpisodio('Jue')" style="border-right: 2px solid #c7c7c7;">Jue</span>
+                                            </ng-template>
+                                            <span *ngIf="day == 'Vie';else isVie" style="border-right: 2px solid #c7c7c7;background: rgb(107, 107, 107);color: white;">Vie</span>
+                                            <ng-template #isVie>
+                                                <span (click)="changeDayEpisodio('Vie')" style="border-right: 2px solid #c7c7c7;">Vie</span>
+                                            </ng-template>
+                                            <span *ngIf="day == 'Sab';else isSab" style="border-right: 2px solid #c7c7c7;    background: rgb(107, 107, 107);color: white;">Sab</span>
+                                            <ng-template #isSab>
+                                                <span (click)="changeDayEpisodio('Sab')" style="border-right: 2px solid #c7c7c7;">Sab</span>
+                                            </ng-template>
+                                            <span *ngIf="day == 'Dom';else isDom" style="background: rgb(107, 107, 107);color: white;">Dom</span>
+                                            <ng-template #isDom>
+                                                <span (click)="changeDayEpisodio('Dom')">Dom</span>
+                                            </ng-template>
+                                        </div>
+                                        <div class="episodios-item" *ngFor="let item of episodiosByDay">
+                                            <div (click)="openEpisodio(item)" class="item-img">
+                                                <!--   <div class="item-img-dia">
+                                                  <span>.</span>
+                                              </div>
+                                             -->
+                                                <img style="border:2px solid black;" src="{{item.cover}} " alt="">
+                                            </div>
+                                            <div style=" display: flex;
+                                          width: 70%;
+                                          height: 100%;
+                                          justify-content: space-evenly;
+                                          align-items: center;
+                                          border-bottom: 1px solid #313131 ;">
+                                                <div (click)="openEpisodio(item)" class="item-content">
+                                                    <div class="other-info">
+                                                        <span style="margin-left: auto;">{{item.pais}} </span>
+                                                    </div>
+                                                    <div class="titulo-episodio" style="text-align: initial;">
+                                                        <span style="text-align: initial;">{{item.nombre}} </span>
+                                                    </div>
+                                                    <div class="other-info">
+                                                        <span>Episodio {{item.capitulo}} </span>
+                                                        <span>{{item.horario}} </span>
+                                                    </div>
+
+                                                </div>
+                                                <div (click)="guardarEpisodio(item)" class="play-item">
+                                                    <ion-icon name="bookmark"></ion-icon>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <br>
+                                </div>
+                            </ion-slide>
+
+
+                            <ion-slide>
+                                <div class="programacion-list">
+                                    <div class="programacion-item">
+                                        <h3 style="margin-top: 1%;">Hoy</h3>
+                                        <div class="episodios-item" *ngFor="let item of pronosticosHoy" style="margin-bottom:2vh;">
+                                            <div (click)="openEpisodio(item)" class="item-img">
+                                                <img style="border:2px solid black" src="{{item.cover}} " alt="">
+                                            </div>
+                                            <div style=" display: flex;
+                                          width: 70%;
+                                          height: 100%;
+                                          justify-content: space-evenly;
+                                          align-items: center;
+                                          border-bottom: 1px solid #313131 ;">
+                                                <div (click)="openEpisodio(item)" class="item-content" style="width: 80%;">
+                                                    <div class="other-info">
+                                                        <span style="margin-left: auto;">{{item.pais}} </span>
+                                                    </div>
+                                                    <div class="titulo-episodio" style="text-align: initial;">
+                                                        <span style="text-align: initial;">{{item.nombre}} </span>
+                                                    </div>
+                                                    <div class="other-info">
+                                                        <span>Episodio {{item.capitulo}} </span>
+                                                        <span>{{item.horario}} </span>
+                                                    </div>
+
+                                                </div>
+                                                <div (click)="guardarEpisodio(item)" class="play-item">
+                                                    <ion-icon name="bookmark"></ion-icon>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="programacion-item">
+                                        <h3 style="margin-top: 1%;">Dias Anteriores</h3>
+                                        <div class="episodios-item" *ngFor="let item of pronosticosOtros" style="margin-bottom:2vh;">
+                                            <div (click)="openEpisodio(item)" class="item-img">
+                                                <img style="border:2px solid black" src="{{item.cover}} " alt="">
+                                            </div>
+                                            <div style=" display: flex;
+                                          width: 70%;
+                                          height: 100%;
+                                          justify-content: space-evenly;
+                                          align-items: center;
+                                          border-bottom: 1px solid #313131 ;">
+                                                <div (click)="openEpisodio(item)" class="item-content" style="width: 80%;">
+                                                    <div class="other-info">
+                                                        <span style="margin-left: auto;">{{item.pais}} </span>
+                                                    </div>
+                                                    <div class="titulo-episodio" style="text-align: initial;">
+                                                        <span style="text-align: initial;">{{item.nombre}} </span>
+                                                    </div>
+                                                    <div class="other-info">
+                                                        <span>Episodio {{item.capitulo}} </span>
+                                                        <span>{{item.horario}} </span>
+                                                    </div>
+
+                                                </div>
+                                                <div (click)="guardarEpisodio(item)" class="play-item">
+                                                    <ion-icon name="bookmark"></ion-icon>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <br>
+
+                                </div>
+
+                            </ion-slide>
+                        </ion-slides>
+                    </div>
+                </div>
+            </ion-slide>
+
+
+            <ion-slide>
+                <div class="content">
+                    <div *ngIf="!ToSearchE" class="header-title" style="    background: #000000d6;
+                  backdrop-filter: blur(5px);    margin-top: 0;">
+                        <div class="logo-place" style="
+                   height: 70%;
+                   width: 20%;
+                   border-radius: 50%;
+                   display: flex;
+                   justify-content: center;
+                   align-items: center;">
+                            <!--     <div class="logo-dia">
+                           <span>.</span>
+                       </div>
+                     <div class="logo-dia-dos">
+                           <span>.</span>
+                       </div>  (click)="openAddEpisodio()"-->
+                            <img style="    width: 70%;
+                       margin: auto;" src="../../assets/logo/grtv.png" alt="">
+                        </div>
+                        <div class="titulo">
+                            <!--      <div class="title-dia">
+                              <span>.</span>
+                          </div>
+                          <div class="title-dia-dos">
+                              <span>.</span>
+                          </div>
+                          <div class="title-dia-tres">
+                              <span>.</span>
+                          </div>-->
+                            <h3>Episodios</h3>
+                        </div>
+
+                        <div style="color: white;" class="search-icon" (click)="EpisodioToSearch()">
+                            <!--   <div class="close-dia" style="background: #1f1f1f;" >
+                              <span style="opacity: 0;" >.</span>
+                          </div>
+                          <div class="close-dia-dos" style="    border:2px solid #c7c7c7;" >
+                              <span style="opacity: 0;" >.</span>
+                          </div>-->
+                            <ion-icon name="search"></ion-icon>
+                        </div>
+                    </div>
+                    <div *ngIf="ToSearchE" class="header-title" style="    background: #000000d6;
+                  backdrop-filter: blur(5px);    margin-top: 0;">
+                        <div class="onsearch">
+                            <!--  <div class="search-dia">
+                              <span>.</span>
+                          </div>-->
+                            <ion-input (ionChange)="buscarE($event)" placeholder="Busca algun episodio.."></ion-input>
+                        </div>
+                        <div class="search-icon" style="color: white;" (click)="EpisodioToSearchClose()">
+                            <!--  <div class="close-dia">
+                              <span>.</span>
+                          </div>
+                          <div class="close-dia-dos">
+                              <span>.</span>
+                          </div>-->
+                            <ion-icon name="close"></ion-icon>
+                        </div>
+
+                    </div>
+                    <div class="filter-episodios">
+                        <span class="spanm">{{episodioTitle}} </span>
+                        <div class="filtro" (click)="EpisodioFiltroAction()">
+                            <span>Filtros</span>
+                            <ion-icon name="options"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="episodios-list">
+                        <div class="episodios-item" *ngFor="let item of episodiosPropios | searchHipodromo:buscarEpisodio ">
+
+
+                            <div (click)="openEpisodio(item)" class="item-img">
+                                <!--    <div class="item-img-dia">
+                                  <span>.</span>
+                              </div>
+                            -->
+                                <img src="{{item.cover}} " alt="">
+                            </div>
+                            <div style=" display: flex;
+                                          width: 70%;
+                                          height: 75%;
+                                          justify-content: space-evenly;
+                                          align-items: center;
+                                          border-bottom: 1px solid #313131 ;">
+                                <div (click)="openEpisodio(item)" class="item-content" style="width: 80%;">
+
+                                    <div class="titulo-episodio" style="
+                                                  text-align: initial;
+                                              ">
+                                        <span id="nombreepisiodiospan">{{item.nombre}} </span>
+                                    </div>
+                                    <div class="other-info">
+                                        <span>Episodio {{item.capitulo}} </span>
+                                        <span>{{item.pais}} </span>
+                                        <span>{{item.shortDate}} </span>
+                                    </div>
+
+                                </div>
+                                <div class="play-item">
+                                    <ion-icon name="play"></ion-icon>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </ion-slide>
+
+
+            <ion-slide>
+                <div class="content">
+                    <div *ngIf="!ToSearch" class="header-title" style="    background: #000000d6;
+                  backdrop-filter: blur(5px);    margin-top: 0;">
+                        <div class="logo-place" style="
+                   height: 70%;
+                   width: 20%;
+                   border-radius: 50%;
+                   display: flex;
+                   justify-content: center;
+                   align-items: center;">
+                            <!--     <div class="logo-dia">
+                           <span>.</span>
+                       </div>
+                     <div class="logo-dia-dos">
+                           <span>.</span>
+                       </div>  (click)="openAddEpisodio()"-->
+                            <img style="    width: 70%;
+                       margin: auto;" src="../../assets/logo/grtv.png" alt="">
+                        </div>
+                        <div class="titulo">
+                            <!--  <div class="title-dia"  >
+                              <span>.</span>
+                          </div>
+                          <div class="title-dia-dos"  >
+                              <span>.</span>
+                          </div>
+                          <div class="title-dia-tres" style="      height: 2%;
+                          top: 7.3%; " >
+                              <span>.</span>
+                          </div>-->
+                            <h3>Hipodromos</h3>
+                        </div>
+
+                        <div style="color: white;" class="search-icon" (click)="hipodromoToSearch()">
+                            <!--   <div class="close-dia" style="background: #1f1f1f;" >
+                              <span style="opacity: 0;" >.</span>
+                          </div>
+                          <div class="close-dia-dos" style="border: 2px solid #c7c7c7;" >
+                              <span style="opacity: 0;" >.</span>
+                          </div>-->
+                            <ion-icon name="search"></ion-icon>
+                        </div>
+                    </div>
+                    <div *ngIf="ToSearch" class="header-title" style="    background: #000000d6;
+                  backdrop-filter: blur(5px);    margin-top: 0;">
+                        <div class="onsearch">
+                            <!--  <div class="search-dia">
+                              <span>.</span>
+                          </div>-->
+                            <ion-input (ionChange)="buscar($event)" placeholder="Busca algun Hipodromo.."></ion-input>
+                        </div>
+                        <div class="search-icon" style="color: white;" (click)="hipodromoToSearchClose()">
+                            <!--  <div class="close-dia">
+                              <span>.</span>
+                          </div>
+                          <div class="close-dia-dos">
+                              <span>.</span>
+                          </div>-->
+                            <ion-icon name="close"></ion-icon>
+                        </div>
+
+                    </div>
+                    <div class="filter-episodios">
+                        <span class="spanm">{{hipodromosTitle}} </span>
+                        <div class="filtro" (click)="HipodromoFiltroAction()">
+                            <span>Filtros</span>
+                            <ion-icon name="options"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="episodios-list">
+
+
+                        <div class="episodios-item" *ngFor="let item of hipodromosAll | searchHipodromo:textoBuscar">
+
+
+                            <div (click)="openHipodromo(item)" class="item-img">
+                                <!--   <div class="item-img-dia"  >
+                                  <span>.</span>
+                              </div>
+                             -->
+                                <img src="{{item.cover}} " alt="">
+                            </div>
+                            <div style=" display: flex;
+                                          width: 70%;
+                                          height: 75%;
+                                          justify-content: space-evenly;
+                                          align-items: center;
+                                          border-bottom: 1px solid #313131 ;">
+                                <div (click)="openHipodromo(item)" class="item-content">
+                                    <div class="titulo-episodio" style="display: flex;">
+                                        <span style="text-align: initial;">{{item.nombre}} </span>
+                                    </div>
+                                    <div class="other-info">
+                                        <span *ngIf="item.enVivo === true" class="parpadea" style="color: red;">En vivo</span>
+                                        <span *ngIf="item.enVivo === false">Pregrabado</span>
+                                        <span style="    text-transform: capitalize;">{{item.pais}}</span>
+                                        <!--
+                                        <span> <ion-icon name="eye-outline"></ion-icon> {{item.nrocarreras}}</span>-->
+                                    </div>
+
+                                </div>
+                                <div (click)="openHipodromo(item)" id="play-hipodromo" class="play-item">
+                                    <ion-icon name="radio-outline"></ion-icon>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </ion-slide>
+
+            <ion-slide>
+                <div class="content">
+                    <div *ngIf="!ToSearchG" class="header-title" style="    background: #000000d6;
+                  backdrop-filter: blur(5px);    margin-top: 0;">
+                        <div class="logo-place" style="
+                   height: 70%;
+                   width: 20%;
+                   border-radius: 50%;
+                   display: flex;
+                   justify-content: center;
+                   align-items: center;">
+                            <!--     <div class="logo-dia">
+                           <span>.</span>
+                       </div>
+                     <div class="logo-dia-dos">
+                           <span>.</span>
+                       </div>  (click)="openAddEpisodio()"-->
+                            <img style="    width: 70%;
+                       margin: auto;" src="../../assets/logo/grtv.png" alt="">
+                        </div>
+                        <div class="titulo">
+                            <!--  <div class="title-dia"  >
+                              <span>.</span>
+                          </div>
+                          <div class="title-dia-dos"  >
+                              <span>.</span>
+                          </div>
+                          <div class="title-dia-tres" style="      height: 2%;
+                          top: 7.3%; " >
+                              <span>.</span>
+                          </div>-->
+                            <h3>Gaceta Turf</h3>
+                        </div>
+
+                        <div style="color: white;" class="search-icon" (click)="GacetaToSearch()">
+                            <!--   <div class="close-dia" style="background: #1f1f1f;" >
+                              <span style="opacity: 0;" >.</span>
+                          </div>
+                          <div class="close-dia-dos" style="border: 2px solid #c7c7c7;" >
+                              <span style="opacity: 0;" >.</span>
+                          </div>-->
+                            <ion-icon name="search"></ion-icon>
+                        </div>
+                    </div>
+                    <div *ngIf="ToSearchG" class="header-title" style="    background: #000000d6;
+                  backdrop-filter: blur(5px);    margin-top: 0;">
+                        <div class="onsearch">
+                            <!--  <div class="search-dia">
+                              <span>.</span>
+                          </div>-->
+                            <ion-input (ionChange)="buscarG($event)" placeholder="Busca algun Hipodromo.."></ion-input>
+                        </div>
+                        <div class="search-icon" style="color: white;" (click)="GacetaToSearchClose()">
+                            <!--  <div class="close-dia">
+                              <span>.</span>
+                          </div>
+                          <div class="close-dia-dos">
+                              <span>.</span>
+                          </div>-->
+                            <ion-icon name="close"></ion-icon>
+                        </div>
+
+                    </div>
+                    <div class="filter-episodios">
+                        <span class="spanm">{{gacetaTitle}} </span>
+                        <div class="filtro" (click)="GacetaFiltroAction()">
+                            <span>Filtros</span>
+                            <ion-icon name="options"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="episodios-list">
+
+
+                        <div class="episodios-item" *ngFor="let item of gacetaHipodromos | searchHipodromo:textoGaceta">
+
+
+                            <div (click)=" openGaceta(item)" class="item-img">
+                                <!--   <div class="item-img-dia"  >
+                                  <span>.</span>
+                              </div>
+                             -->
+                                <img src="{{item.cover}} " alt="">
+                            </div>
+                            <div style=" display: flex;
+                                          width: 70%;
+                                          height: 75%;
+                                          justify-content: space-evenly;
+                                          align-items: center;
+                                          border-bottom: 1px solid #313131 ;">
+                                <div (click)=" openGaceta(item)" class="item-content">
+                                    <div class="other-info">
+                                        <span>Gaceta Turf</span>
+                                        <span style="    text-transform: capitalize;">{{item.pais}}</span>
+                                    </div>
+                                    <div class="titulo-episodio" style="display: flex;">
+                                        <span style="text-align: initial;">{{item.nombre}} </span>
+                                    </div>
+                                    <div *ngIf="item.actividad == true" class="other-info">
+                                        <span>{{item.nrocarreras}} Carreras</span>
+                                        <span> {{item.clima}}°</span>
+                                    </div>
+
+                                    <div *ngIf="item.actividad == false" class="other-info">
+                                        <span style="color: #787878;">Hoy no hay actividad</span>
+                                    </div>
+
+                                </div>
+                                <div (click)=" openGaceta(item)" id="play-hipodromo" class="play-item">
+                                    <ion-icon name="enter"></ion-icon>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </ion-slide>
+
+
+            <ion-slide>
+                <div class="content">
+                    <div class="header-title" style="    background: #000000d6;
+                  backdrop-filter: blur(5px);    margin-top: 0;">
+                        <div class="logo-place" style="
+                   height: 70%;
+                   width: 20%;
+                   border-radius: 50%;
+                   display: flex;
+                   justify-content: center;
+                   align-items: center;">
+                            <!--     <div class="logo-dia">
+                           <span>.</span>
+                       </div>
+                     <div class="logo-dia-dos">
+                           <span>.</span>
+                       </div>  (click)="openAddEpisodio()"-->
+                            <img style="    width: 70%;
+                       margin: auto;" src="../../assets/logo/grtv.png" alt="">
+                        </div>
+                        <div class="titulo">
+                            <!--  <div class="title-dia">
+                              <span>.</span>
+                          </div>
+                          <div class="title-dia-dos">
+                              <span>.</span>
+                          </div>
+                          <div class="title-dia-tres">
+                              <span>.</span>
+                          </div>-->
+                            <h3>Entretenimiento</h3>
+                        </div>
+
+                        <div (click)="openmenuPerfil()" style="color: white;" class="search-icon">
+                            <!--   <div class="close-dia" style="background: #1f1f1f;" >
+                              <span style="opacity: 0;" >.</span>
+                          </div>
+                          <div class="close-dia-dos" style="    border:2px solid #c7c7c7;" >
+                              <span style="opacity: 0;" >.</span>
+                          </div>-->
+                            <ion-icon name="person"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="episodios-list" *ngIf="accActive && encuestaActive">
+                        <div *ngIf="accActive.active == true" class="juego-item" (click)="openJuego()">
+                            <div class="juego-port">
+                                <img src="../../assets/acc-fotos/portada.jpg" alt="">
+                            </div>
+                            <div class="juego-titl">
+                                <h3 *ngIf="accConfig"> {{accConfig.name}} </h3>
+                                <div class="sub-info">
+                                    <span *ngIf="salaAllArray">Salas Activas: {{salaAllArray.length}} </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="juego-item" *ngIf="encuestaActive.active == true" (click)="openEncuesta()">
+                            <div class="juego-port">
+                                <img src="../../assets/other/poster1.jpg" alt="">
+                            </div>
+                            <div class="juego-titl">
+                                <h3>Encuestas</h3>
+                                <div class="sub-info">
+                                    <span *ngIf="encuestas">Encuestas Activas: {{encuestas.length}} </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="juego-item" (click)="redesSociales()">
+                            <div class="juego-port">
+                                <img src="https://www.reviewsxp.com/blog/wp-content/uploads/2020/01/best-social-networking-sites.jpg" alt="">
+                            </div>
+                            <div class="juego-titl">
+                                <h3>Redes Sociales</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </ion-slide>
+
+
+        </ion-slides>
+    </div>
+
+
+
+    <div class="botones" style="transition: 1s;    bottom: 0; {{botonScale}} ">
+        <div class="first-dia" style="    transition: 1s;
+      width: 100%;
+      transform: none;background: white; ">
+            <span>.</span>
+        </div>
+        <div class="fade-final">
+            <span>..</span>
+        </div>
+        <!--
+      <div class="first-dos" style="transition: 1s; {{EnCentro}}" >
+          <span>.</span>
+      </div>
+      <div class="first-tres" style="transition: 1.5s; {{EnCentro}}" >
+          <span>.</span>
+      </div>-->
+        <div (click)="onEnVivo()" class="boton-item {{EnVivoActive}}">
+            <!--  <div *ngIf="EnVivoActive" class="span-active">
+                  <span>..</span>
+              </div>-->
+            <ion-icon name="videocam"></ion-icon>
+            <span>En Vivo</span>
+        </div>
+        <div (click)="onEpisodios()" class="boton-item {{EpisodiosActive}}">
+            <!-- <div *ngIf="EpisodiosActive" class="span-active">
+                  <span>..</span>
+              </div>-->
+            <ion-icon name="play-circle"></ion-icon>
+            <span>Episodios</span>
+        </div>
+        <div (click)="onHipodromos()" class="boton-item {{HipodromosActive}}">
+            <!--  <div *ngIf="HipodromosActive" class="span-active"  >
+                  <span>..</span>
+              </div>-->
+            <img style="    height: 50%; {{gacetaIcon}}    filter: invert(1);" src="../../assets/icon/track.png" alt="">
+            <span>Hipodromos</span>
+        </div>
+        <div (click)="onGaceTurf()" class="boton-item {{gacetaActive}}">
+            <!--  <div *ngIf="HipodromosActive" class="span-active"  >
+                  <span>..</span>
+              </div>-->
+            <img style="    height: 50%; {{turfIcon}} " src="../../assets/icon/horse-run.svg" alt="">
+            <span>Gaceta Turf</span>
+        </div>
+        <div (click)="onJuegos()" class="boton-item {{JuegosActive}}">
+            <!--  <div *ngIf="JuegosActive" class="span-active">
+                  <span>..</span>
+              </div>-->
+            <ion-icon name="game-controller"></ion-icon>
+            <span>Entretenimiento</span>
+        </div>
+
+
+    </div>
+</ion-router-outlet>

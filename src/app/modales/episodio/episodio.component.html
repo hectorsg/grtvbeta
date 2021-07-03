@@ -1,0 +1,57 @@
+<div class="contenido-modal" *ngIf="episodioItem" style="    backdrop-filter: blur(6px);
+background: #000000e3; padding-top: 0;  padding-bottom: 0;">
+    <!-- <div class="modal-dia">
+    <span>.</span>
+  </div>-->
+    <div (click)="dissmissModal()" class="dissmiss" style="width: max-content;
+  margin-left: auto;
+  margin-top: 2%;position:initial">
+        <ion-icon name="chevron-down-outline"></ion-icon>
+    </div>
+    <div class="reproductor">
+
+
+        <video style="height: 100%;width: 100%;" controls id="episodio" playsinline preload="metadata" class="video-js vjs-default-skin"></video>
+
+    </div>
+    <div class="fecha-info category">
+        <span>{{episodioItem.pais}} </span>
+        <span style="margin-left: 10%;">Episodio {{episodioItem.capitulo}} </span>
+    </div>
+    <h3 class="titulo">{{episodioItem.nombre}} </h3>
+    <div class="fecha-info">
+        <span>{{episodioItem.longDate}} </span>
+        <span style="margin-left: 10%;">{{episodioItem.horario}} </span>
+    </div>
+    <div class="descripcion">
+        <span>{{episodioItem.descripcion}}</span>
+    </div>
+
+    <!--
+    <h3 *ngIf="otherEpisodios" class="titulo" style="margin-bottom: 1%;">Mas Episodios </h3>
+    <div *ngIf="otherEpisodios" class="otros-slides">
+        <ion-slides #masCapitulos [options]="masEpisodios">
+            <ion-slide *ngFor="let item of otherEpisodios">
+                <div class="episodio-item">
+                     <div class="item-dia">
+                        <span>.</span>
+                    </div>
+                    <div class="item-dia-dos">
+                        <span>.</span>
+                    </div>
+                    <div class="item-img">
+                        <img [src]="item.cover" alt="">
+                    </div>
+                    <div class="content-item">
+                        <span>Episodio {{item.capitulo}} </span>
+                    </div>
+                </div>
+            </ion-slide>
+        </ion-slides>
+    </div>
+
+-->
+
+
+
+</div>

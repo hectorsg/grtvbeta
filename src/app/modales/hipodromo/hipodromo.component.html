@@ -1,0 +1,326 @@
+<div class="contenido-modal" style="    backdrop-filter: blur(6px);
+background: #000000e3; padding-top: 0;    padding: 0;  padding-bottom: 0;">
+    <!-- <div class="modal-dia">
+    <span>.</span>
+  </div>-->
+    <div (click)="dismissModal()" class="dissmiss" style="width: max-content;
+  margin-left: auto;
+  margin-top: 2%;position:initial">
+        <ion-icon name="chevron-down-outline"></ion-icon>
+    </div>
+    <ion-spinner *ngIf="!sliderLoad" style="position: absolute;
+  width: 20%;
+  height: inherit;
+  left: 40%;
+  color: #e4e000;" name="crescent"></ion-spinner>
+    <ion-slides [options]="hipodromoSlide" #hipodromo style="height: 95%;width: 100%;">
+        <!--Aqui va la info del hipodromo-->
+        <ion-slide *ngIf="sliderLoad">
+            <div class="gaceta-content">
+                <div class="header">
+                    <div class="hipodromo-name" style="    width: 75%;">
+                        <img style="    height: 50%;
+                        margin-top: 0;
+                        margin-right: 4%;" src="../../assets/icon/track.png" alt="">
+                        <span>{{hip.nombre}} </span>
+                    </div>
+                    <div class="time-info" style="text-align: center;width: 20%;">
+                        <ion-icon name="cloud"></ion-icon>
+                        <span>{{hip.clima}}° </span>
+                    </div>
+                </div>
+                <div class="header" style="height: max-content;justify-content: flex-start;margin-bottom: 5%;">
+                    <div class="hipodromo-name" style="    width: 75%; margin-left: auto;justify-content: flex-end;margin-right: 5%;">
+                        <ion-icon name="globe-outline"></ion-icon>
+                        <span (click)="openLinkBrowser()">Ver Pagina Web</span>
+                    </div>
+                </div>
+                <div class="reproductor">
+                    <video style="width: 100%;height: 100%;" controls id="video-hipodromo" playsinline preload="metadata" class="video-js vjs-default-skin"></video>
+
+                </div>
+
+
+
+
+                <div *ngIf="hip.historiauno" class="horse-info" style="text-align: initial;
+        color: white;">
+                    <span>{{hip.historiauno}} </span>
+                </div>
+                <div *ngIf="hip.historiados" class="horse-info" style="text-align: initial;
+        color: white;">
+                    <h3>Historia</h3>
+                    <span>{{hip.historiados}} </span>
+                </div>
+                <div *ngIf="hip.raceHip" class="horse-info" style="margin-top: 5%;">
+                    <h3>Carreras</h3>
+                    <div class="grid-race" style="grid-template-columns: 1fr 1fr">
+                        <span>GP Ciudad de Buenos Aires</span>
+                        <span>3 y más años</span>
+                        <span>GP Ciudad de Buenos Aires</span>
+                        <span>3 y más años</span>
+                        <span>GP Ciudad de Buenos Aires</span>
+                        <span>3 y más años</span>
+
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+            </div>
+        </ion-slide>
+        <!--Aqui va la info de la carrera
+        <ion-slide *ngIf="sliderLoad">
+            <div class="gaceta-content">
+                <div (click)="VolverGaceta()" class="volver">
+
+                    <span>Volver</span>
+                </div>
+                <div *ngIf="infoCarrera" class="header">
+                    <div class="hipodromo-name" style="    width: 75%;">
+                        <ion-icon name="cloud-circle"></ion-icon>
+                        <span>{{infoCarrera.raceName}} </span>
+                    </div>
+                    <div class="time-info">
+                        <ion-icon name="time"></ion-icon>
+                        <span>En 3 horas</span>
+                    </div>
+                </div>
+                <div *ngIf="infoCarrera" class="carreras-list">
+                    <div class="horse-info" style="margin-top: 5%;">
+                        <div class="horse-info-grid" style="grid-template-columns: 1fr 1fr;">
+                            <span style="    font-size: 12px;">{{infoCarrera.distancia}} </span>
+
+                            <span style="border-right: none;">{{infoCarrera.pote}}$</span>
+
+
+                        </div>
+                        <div class="horse-info-grid" style="grid-template-columns: 1fr 1fr;">
+
+                            <span>{{infoCarrera.type}} </span>
+                            <span style="border-right: none;">{{infoCarrera.lastype}}</span>
+
+
+
+                        </div>
+                    </div>
+                    <div *ngIf="infoCarrera" class="horse-info" style="    margin-top: 5%;
+    text-align: initial;
+    color: white;
+    ">
+                        <span id="span-descripcion">{{infoCarrera.descripcion}}</span>
+                    </div>
+                    <ion-button (click)="abrirRetrospecto()">Abrir Retrospecto</ion-button>
+                </div>
+            </div>
+        </ion-slide>
+        Aqui va la Gaceta
+        <ion-slide *ngIf="sliderLoad">
+            <div class="gaceta-content">
+                <div class="header">
+                    <div (click)="openInfoHipodromo()" class="hipodromo-name">
+                        <ion-icon name="cloud-circle"></ion-icon>
+                        <span>{{hip.nombre}} </span>
+                    </div>
+                    <div class="time-info">
+                        <ion-icon name="time"></ion-icon>
+                        <span>En {{hip.falta}} </span>
+                    </div>
+                </div>
+                <div class="carreras-list">
+                    <div class="carrera-item">
+                        <div class="item-header">
+                            <span *ngIf="day == 'Lun'; else isLun" style="border-right: 1px solid #c7c7c7;background: #c7c7c7;color: #3c3c3c;">Lun</span>
+                            <ng-template #isLun>
+                                <span (click)="changeDay('Lun')" style="border-right: 1px solid #c7c7c7;">Lun</span>
+                            </ng-template>
+                            <span *ngIf="day == 'Mar';else isMar" style="border-right: 1px solid #c7c7c7;background: #c7c7c7;color: #3c3c3c;">Mar</span>
+                            <ng-template #isMar>
+                                <span (click)="changeDay('Mar')" style="border-right:1px solid #c7c7c7">Mar</span>
+                            </ng-template>
+                            <span *ngIf="day == 'Mie'; else isMie" style="border-right: 1px solid #c7c7c7;background: #c7c7c7;color: #3c3c3c;">Mie</span>
+                            <ng-template #isMie>
+                                <span (click)="changeDay('Mie')" style="border-right:1px solid #c7c7c7">Mie</span>
+                            </ng-template>
+                            <span *ngIf="day == 'Jue';else isJue" style="border-right: 1px solid #c7c7c7;background: #c7c7c7;color: #3c3c3c;">Jue</span>
+                            <ng-template #isJue>
+                                <span (click)="changeDay('Jue')" style="border-right: 1px solid #c7c7c7;">Jue</span>
+                            </ng-template>
+                            <span *ngIf="day == 'Vie';else isVie" style="border-right: 1px solid #c7c7c7;background: #c7c7c7;color: #3c3c3c;">Vie</span>
+                            <ng-template #isVie>
+                                <span (click)="changeDay('Vie')" style="border-right: 1px solid #c7c7c7;">Vie</span>
+                            </ng-template>
+                            <span *ngIf="day == 'Sab';else isSab" style="border-right: 1px solid #c7c7c7;background: #c7c7c7;color: #3c3c3c;">Sab</span>
+                            <ng-template #isSab>
+                                <span (click)="changeDay('Sab')" style="border-right: 1px solid #c7c7c7;">Sab</span>
+                            </ng-template>
+                            <span *ngIf="day == 'Dom';else isDom" style="border-right: 1px solid #c7c7c7;background: #c7c7c7;color: #3c3c3c;">Dom</span>
+                            <ng-template #isDom>
+                                <span (click)="changeDay('Dom')">Dom</span>
+                            </ng-template>
+                        </div>
+                        <div *ngFor="let item of raceAll" class="item-horse" (click)="openInfoCarrera(item)">
+                            <div class="horse-num">
+                                <div class="num" style="background: {{ite.color}} ;" >
+                <span>.</span>
+              </div>
+                                <span>{{item.shortRaceName}} </span>
+                            </div>
+                            <div class="item-horse-name">
+                                <div class="name">
+                                    <span>{{item.type}} </span>
+                                    <div class="more-info">
+                                        <span>${{item.pote}}</span>
+                                        <span> {{item.distancia}}</span>
+                                    </div>
+                                </div>
+                                <div class="odds">
+                                    <span>{{item.lastype}} </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <br>
+            </div>
+        </ion-slide>
+
+        Aqui va el caballo
+        <ion-slide *ngIf="sliderLoad">
+            <div class="gaceta-content">
+                <div (click)="VolverGaceta()" class="volver">
+
+                    <span>Volver</span>
+                </div>
+
+                <div class="header">
+                    <div class="hipodromo-name" style="    width: 75%;">
+                        <ion-icon name="cloud-circle"></ion-icon>
+                        <span>Retrospecto </span>
+                    </div>
+                    <div class="time-info" style="text-align: center;
+          width: 20%;">
+
+                         <span>{{CurrentRaceHorse.odds}} </span>
+                    </div>
+                </div>
+                <div class="pdf-place" style="height:85%;position:relative">
+                    <pdf-viewer [src]="pdfSrc" [render-text]="true" [fit-to-page]="true"></pdf-viewer>
+                </div>
+
+                
+
+        <div *ngIf="horseArray"  class="carreras-list">
+          <div class="horse-info">
+            <div class="horse-info-item">
+              <span>Dueño: {{horseArray.owner}} </span>
+            </div>
+            <div class="horse-info-item">
+              <span>Entrenador: {{horseArray.trainer}} </span>
+            </div>
+            <div class="horse-info-item">
+              <span>Edad: {{horseArray.edad}} </span>
+            </div>
+            <div class="horse-info-item">
+              <span>Peso: {{horseArray.peso}} </span>
+            </div>
+          </div>
+          <div class="horse-info">
+            <div *ngIf="vida" class="horse-info-grid">
+              <span>Vida</span>
+              <span>{{vida.wins}} </span>
+              <span>{{vida.toptres}} </span>
+              <span>{{vida.perdido}} </span>
+              <span>{{vida.retirado}} </span>
+              <span>{{vida.dinero}} </span>
+              <span style="border-right: none;" > {{vida.efect}} </span>
+            </div>
+            <div class="horse-info-grid" *ngIf="horseArray.veinte" >
+              <span>2020</span>
+              <span>{{horseArray.veinte.wins}} </span>
+              <span>{{horseArray.veinte.toptres}} </span>
+              <span>{{horseArray.veinte.perdido}} </span>
+              <span>{{horseArray.veinte.retirado}} </span>
+              <span>{{horseArray.veinte.dinero}} </span>
+              <span style="border-right: none;" >{{horseArray.veinte.efect}} </span>
+            </div>
+            <div *ngIf="horseArray.diesnueve" class="horse-info-grid">
+              <span>{{horseArray.diesnueve.wins}} </span>
+              <span>{{horseArray.diesnueve.toptres}} </span>
+              <span>{{horseArray.diesnueve.perdido}} </span>
+              <span>{{horseArray.diesnueve.retirado}} </span>
+              <span>{{horseArray.diesnueve.dinero}} </span>
+              <span style="border-right: none;" >{{horseArray.diesnueve.efect}} </span>
+            </div>
+          </div>
+          <div *ngIf="horseArray.terrenos" class="horse-info" style="margin-top: 5%;" >
+            <div class="horse-info-grid">
+              <span style="    font-size: 12px;" >Mojado</span>
+              <span>8</span>
+              <span>2</span>
+              <span>2</span>
+              <span>2</span>
+              <span>$135,000</span>
+              <span style="border-right: none;" >90</span>
+            </div>
+            <div class="horse-info-grid">
+              <span>Sintet</span>
+              <span>8</span>
+              <span>2</span>
+              <span>2</span>
+              <span>2</span>
+              <span>$135,000</span>
+              <span style="border-right: none;" >90</span>
+            </div>
+            <div class="horse-info-grid">
+              <span>Turf</span>
+              <span>8</span>
+              <span>2</span>
+              <span>2</span>
+              <span>2</span>
+              <span>$135,000</span>
+              <span style="border-right: none;" >90</span>
+            </div>
+            <div class="horse-info-grid">
+              <span>Tierra</span>
+              <span>8</span>
+              <span>2</span>
+              <span>2</span>
+              <span>2</span>
+              <span>$135,000</span>
+              <span style="border-right: none;" >90</span>
+            </div>
+          </div>
+
+          <div *ngIf="horseArray.trabajos" class="horse-info" style="margin-top: 5%;" >
+            <span class="horse-info-name" >Trabajos</span>
+            <div class="horse-info-grid" style="    grid-template-columns: 1fr 1fr;" >
+              <span style="    margin-bottom: 3%;border: none;    padding: 2%;
+              border-bottom: 1px solid #e4e000a8;    font-size: 12px;" >Dec 19 SLR 5f fst:59 4 H:2/23</span>
+              <span style="    margin-bottom: 3%;border: none;    padding: 2%;
+              border-bottom: 1px solid #e4e000a8;    font-size: 12px;" >Dec 19 SLR 5f fst:59 4 H:2/23</span>
+              <span style="    margin-bottom: 3%;border: none;    padding: 2%;
+              border-bottom: 1px solid #e4e000a8;    font-size: 12px;" >Dec 19 SLR 5f fst:59 4 H:2/23</span>
+              <span style="    margin-bottom: 3%;border: none;    padding: 2%;
+              border-bottom: 1px solid #e4e000a8;    font-size: 12px;" >Dec 19 SLR 5f fst:59 4 H:2/23</span>
+              <span style="    margin-bottom: 3%;border: none;    padding: 2%;
+              border-bottom: 1px solid #e4e000a8;    font-size: 12px;" >Dec 19 SLR 5f fst:59 4 H:2/23</span>
+              <span style="    margin-bottom: 3%;border: none;    padding: 2%;
+              border-bottom: 1px solid #e4e000a8;    font-size: 12px;" >Dec 19 SLR 5f fst:59 4 H:2/23</span>
+              <span style="border-right: none;border: none;    padding: 2%;
+              border-bottom: 1px solid #e4e000a8;    font-size: 12px;" >Dec 19 SLR 5f fst:59 4 H:2/23</span>
+            </div>
+          </div>
+        </div>
+-->
+
+
+
+
+    </ion-slides>
+
+</div>
